@@ -1,0 +1,87 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-4">
+  <mat-card class="w-full max-w-md shadow-2xl">
+    <mat-card-header class="text-center pb-6">
+      <mat-card-title class="text-3xl font-bold text-gray-800 mb-2">
+        Welcome Back
+      </mat-card-title>
+      <mat-card-subtitle class="text-gray-600">
+        Sign in to your account to continue
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="p-6">
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <!-- Email Field -->
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Email Address</mat-label>
+          <input 
+            matInput 
+            type="email" 
+            formControlName="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            [class.mat-error]="isFieldInvalid('email')"
+          />
+          <mat-error *ngIf="isFieldInvalid('email')">
+            {{ getErrorMessage('email') }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Password Field -->
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Password</mat-label>
+          <input 
+            matInput 
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            [class.mat-error]="isFieldInvalid('password')"
+          />
+          <button 
+            mat-icon-button 
+            matSuffix 
+            (click)="togglePasswordVisibility()" 
+            type="button"
+            class="text-gray-500 hover:text-gray-700"
+          >
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="isFieldInvalid('password')">
+            {{ getErrorMessage('password') }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Submit Button -->
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="w-full h-12 text-lg font-semibold"
+          [disabled]="isLoading || loginForm.invalid"
+        >
+          <mat-spinner *ngIf="isLoading" diameter="20" class="mr-2"></mat-spinner>
+          {{ isLoading ? 'Signing In...' : 'Sign In' }}
+        </button>
+      </form>
+
+      <!-- Toggle to Signup -->
+      <div class="text-center mt-6 text-gray-600">
+        Don't have an account?
+        <a routerLink="/signup" class="text-blue-600 hover:text-blue-800 font-medium ml-1">
+          Sign up here
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

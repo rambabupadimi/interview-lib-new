@@ -1,0 +1,59 @@
+{
+  "name": "backend-portal",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "backend-portal/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/backend-portal",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "backend-portal/src/main.ts",
+        "tsConfig": "backend-portal/tsconfig.app.json",
+        "assets": ["backend-portal/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "backend-portal:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "backend-portal:build:development"
+        },
+        "production": {
+          "buildTarget": "backend-portal:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
