@@ -5,6 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-users',
@@ -54,13 +55,13 @@ export class UsersComponent implements OnInit {
     this.loadUsers();
   }
   loadUsers() {
-    this.http.get<any[]>('/api/admin/users').subscribe(data => this.users = data);
+    this.http.get<any[]>(`${environment.apiUrl}/users/list`).subscribe(data => this.users = data);
   }
   editUser(id: string) {
     this.router.navigate(['/admin/users/edit', id]);
   }
   toggleBlock(user: any) {
     const action = user.status === 'blocked' ? 'unblock' : 'block';
-    this.http.patch(`/api/admin/users/${user.id}/${action}`, {}).subscribe(() => this.loadUsers());
+    this.http.patch(`${environment.apiUrl}/users/${user.id}/${action}`, {}).subscribe(() => this.loadUsers());
   }
-} 
+}

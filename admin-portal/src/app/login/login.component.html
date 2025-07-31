@@ -1,5 +1,3 @@
-
-
 <!-- Top Navbar -->
 <div class="flex items-center p-4 shadow-sm">
   <mat-icon>flag</mat-icon>
@@ -7,30 +5,26 @@
 </div>
 
 <!-- Centered Form Container -->
-<div class="flex items-center justify-center min-h-[80vh] bg-white">
-  <div class="w-full max-w-md px-6 py-8">
+<div class="flex items-center justify-center min-h-[80vh] bg-gray-200">
+  <div class="w-full max-w-[400px] px-6 py-8">
     <h2 class="text-center text-2xl font-bold mb-6">Login</h2>
 
-    <form>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline" class="w-full mb-4">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Email" type="email">
+        <input matInput placeholder="Email" type="email" formControlName="email">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="w-full mb-6">
         <mat-label>Password</mat-label>
-        <input matInput placeholder="Password" type="password">
+        <input matInput placeholder="Password" type="password" formControlName="password">
       </mat-form-field>
 
       <button mat-raised-button color="primary"
-              class="w-full bg-black hover:bg-gray-900 text-white py-2 rounded-full mb-4">
+      type="submit"
+              class="w-full bg-black hover:bg-gray-900 text-white py-2 rounded-full mb-4"
+             >
         Login
-      </button>
-
-      <div class="text-center text-sm text-gray-500 mb-4">or</div>
-
-      <button mat-stroked-button class="w-full rounded-full bg-gray-100 font-semibold">
-        Login with Google
       </button>
     </form>
   </div>

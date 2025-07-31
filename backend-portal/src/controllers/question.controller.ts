@@ -4,7 +4,7 @@ import { QuestionRepository } from '../repositories/question.repository';
 export const createQuestion = async (req: Request, res: Response) => {
   try {
     const { title, technology_id, company_id, experience_id } = req.body;
-    
+
     if (!title) {
       return res.status(400).json({
         success: false,
@@ -44,7 +44,7 @@ export const updateQuestion = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, technology_id, company_id, experience_id } = req.body;
-    
+
     if (!id || isNaN(Number(id))) {
       return res.status(400).json({
         success: false,
@@ -62,7 +62,7 @@ export const updateQuestion = async (req: Request, res: Response) => {
     }
 
     const questionId = Number(id);
-    
+
     // Check if question exists
     const existingQuestion = await QuestionRepository.getQuestionById(questionId);
     if (!existingQuestion) {
@@ -98,7 +98,7 @@ export const updateQuestion = async (req: Request, res: Response) => {
 export const deleteQuestion = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    
+
     if (!id || isNaN(Number(id))) {
       return res.status(400).json({
         success: false,
@@ -108,7 +108,7 @@ export const deleteQuestion = async (req: Request, res: Response) => {
     }
 
     const questionId = Number(id);
-    
+
     // Check if question exists
     const question = await QuestionRepository.getQuestionById(questionId);
     if (!question) {
@@ -121,7 +121,7 @@ export const deleteQuestion = async (req: Request, res: Response) => {
 
     // Delete question and all its answers
     await QuestionRepository.deleteQuestionWithAnswers(questionId);
-    
+
     res.json({
       success: true,
       message: 'Question and all associated answers deleted successfully'
@@ -140,7 +140,7 @@ export const deleteQuestion = async (req: Request, res: Response) => {
 export const getAllQuestionsWithAnswers = async (req: Request, res: Response) => {
   try {
     const questions = await QuestionRepository.getAllQuestionsWithAnswers();
-    
+
     res.json({
       success: true,
       message: 'Questions retrieved successfully',
@@ -160,7 +160,7 @@ export const getAllQuestionsWithAnswers = async (req: Request, res: Response) =>
 export const getQuestionsByTechnology = async (req: Request, res: Response) => {
   try {
     const { technologyId } = req.params;
-    
+
     if (!technologyId || isNaN(Number(technologyId))) {
       return res.status(400).json({
         success: false,
@@ -170,7 +170,7 @@ export const getQuestionsByTechnology = async (req: Request, res: Response) => {
     }
 
     const questions = await QuestionRepository.getQuestionsByTechnology(Number(technologyId));
-    
+
     res.json({
       success: true,
       message: 'Questions retrieved successfully',
@@ -216,7 +216,7 @@ export const createQuestionWithAnswer = async (req: Request, res: Response) => {
       experience_id,
       created_by
     });
-    
+
     const answerRow = await QuestionRepository.createAnswer({
       question_id: questionRow.id,
       answer_text: answer,
@@ -238,4 +238,14 @@ export const createQuestionWithAnswer = async (req: Request, res: Response) => {
       message: 'Failed to create question and answer.'
     });
   }
-}; 
+};
+
+export const getAllQuestionsAndAnswersByTechnology = async (req, res) => {
+  try {
+    const { technologyId } = req.params;
+    const questionsWithAnswers = await QuestionRepository.getQuestionsByTechnology(technologyId);
+    res.json(questionsWithAnswers);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch questions and answers', error: error.message });
+  }
+};

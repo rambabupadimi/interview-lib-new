@@ -5,6 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { environment } from '../../environments/environment'; // Import environment
 
 @Component({
   selector: 'app-technologies',
@@ -51,7 +52,7 @@ export class TechnologiesComponent implements OnInit {
     this.loadTechnologies();
   }
   loadTechnologies() {
-    this.http.get<any[]>('/api/admin/technologies').subscribe(data => this.technologies = data);
+    this.http.get<any[]>(`${environment.apiUrl}/technologies`).subscribe((result: any) => this.technologies = result.data);
   }
   addTechnology() {
     this.router.navigate(['/admin/technologies/add']);
@@ -61,7 +62,7 @@ export class TechnologiesComponent implements OnInit {
   }
   deleteTechnology(id: string) {
     if (confirm('Are you sure you want to delete this technology?')) {
-      this.http.delete(`/api/admin/technologies/${id}`).subscribe(() => this.loadTechnologies());
+      this.http.delete(`${environment.apiUrl}/technologies/${id}`).subscribe(() => this.loadTechnologies());
     }
   }
-} 
+}

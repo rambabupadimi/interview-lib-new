@@ -15,7 +15,8 @@ export interface User {
 
 export class UserRepository {
   static async createUser(userData: Omit<User, 'id' | 'created_at'>): Promise<User> {
-    const [user] = await db('users').insert(userData).returning('*');
+    const [insertedId] = await db('users').insert(userData);
+    const user = await db('users').where('id', insertedId).first();
     return user;
   }
 
@@ -34,4 +35,21 @@ export class UserRepository {
   static async getRoleById(roleId: number): Promise<{ id: number; name: string } | undefined> {
     return await db('roles').where('id', roleId).first();
   }
-} 
+
+  static async getAllUsers(): Promise<User[]> {
+    return await db('users').select('*');
+  }
+
+  static async updateUser(id: number, updates: Partial<Omit<User, 'id' | 'created_at'>>): Promise<User | undefined> {
+    await db('users').where('id', id).update(updates);
+    return await db('users').where('id', id).first();
+  }
+
+  static async deleteUser(id: number): Promise<number> {
+    return await db('users').where('id', id).del();
+  }
+
+  static async getUserById(id: string): Promise<User | undefined> {
+    return await db('users').where('id', id).first();
+  }
+}

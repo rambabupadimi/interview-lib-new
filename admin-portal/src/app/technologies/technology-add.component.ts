@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-technology-add',
@@ -61,7 +62,7 @@ export class TechnologyAddComponent {
   onSubmit() {
     if (this.form.valid) {
       this.loading = true;
-      this.http.post('/api/admin/technologies', this.form.value).subscribe({
+      this.http.post(`${environment.apiUrl}/technologies`, this.form.value).subscribe({
         next: () => {
           this.snackBar.open('Technology added!', 'Close', { duration: 2000 });
           this.router.navigate(['/admin/technologies']);
@@ -76,4 +77,4 @@ export class TechnologyAddComponent {
   cancel() {
     this.router.navigate(['/admin/technologies']);
   }
-} 
+}

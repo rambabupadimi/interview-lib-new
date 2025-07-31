@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { environment } from 'admin-portal/src/environments/environment';
 
 @Component({
   selector: 'app-user-edit',
@@ -17,7 +19,8 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule
   ],
   template: `
     <div class="max-w-2xl mx-auto py-8">
@@ -35,7 +38,10 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
             </mat-form-field>
             <mat-form-field appearance="outline" class="w-full">
               <mat-label>Status</mat-label>
-              <input matInput formControlName="status" />
+              <mat-select formControlName="status">
+                <mat-option value="active">Active</mat-option>
+                <mat-option value="deactive">Inactive</mat-option>
+              </mat-select>
             </mat-form-field>
             <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
               {{ loading ? 'Saving...' : 'Save' }}
@@ -62,13 +68,13 @@ export class UserEditComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      status: ['']
+      status: ['active']
     });
   }
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      this.http.get<any>(`/api/admin/users/${this.id}`).subscribe({
+      this.http.get<any>(`${environment.apiUrl}/users/${this.id}`).subscribe({
         next: (data) => this.form.patchValue(data),
         error: () => this.snackBar.open('Failed to load user', 'Close', { duration: 3000 })
       });
@@ -77,7 +83,7 @@ export class UserEditComponent implements OnInit {
   onSubmit() {
     if (this.form.valid && this.id) {
       this.loading = true;
-      this.http.put(`/api/admin/users/${this.id}`, this.form.value).subscribe({
+      this.http.put(`${environment.apiUrl}/users/${this.id}`, this.form.value).subscribe({
         next: () => {
           this.snackBar.open('User updated!', 'Close', { duration: 2000 });
           this.router.navigate(['/admin/users']);
@@ -92,4 +98,4 @@ export class UserEditComponent implements OnInit {
   cancel() {
     this.router.navigate(['/admin/users']);
   }
-} 
+}

@@ -44,4 +44,4 @@ export class TechnologyRepository {
   static async findByName(name: string): Promise<Technology | undefined> {
     return await db('technologies').where('name', name).first();
   }
-} 
+}

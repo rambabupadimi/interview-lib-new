@@ -30,7 +30,7 @@ export class QuestionRepository {
       experience_id,
       created_by
     });
-    
+
     // Fetch the created question since MySQL doesn't support returning('*')
     const question = await db('questions').where('id', questionId).first();
     return question;
@@ -42,7 +42,7 @@ export class QuestionRepository {
       answer_text,
       created_by
     });
-    
+
     // Fetch the created answer since MySQL doesn't support returning('*')
     const answer = await db('answers').where('id', answerId).first();
     return answer;
@@ -126,7 +126,7 @@ export class QuestionRepository {
     return await db.transaction(async (trx) => {
       // First delete all answers associated with the question
       await trx('answers').where('question_id', questionId).del();
-      
+
       // Then delete the question
       await trx('questions').where('id', questionId).del();
     });
@@ -134,8 +134,43 @@ export class QuestionRepository {
 
   static async updateQuestion(questionId: number, updateData: any) {
     await db('questions').where('id', questionId).update(updateData);
-    
+
     // Fetch the updated question
     return await db('questions').where('id', questionId).first();
   }
-} 
+}
+
+// export const getAllQuestionsAndAnswersByTechnology = async (technologyId: string | number) => {
+//   const questions = await db('questions')
+//     .select(
+//       'questions.*',
+//       'companies.name as company_name',
+//       'experiences.years as experience_years',
+//       'users.name as created_by_name'
+//     )
+//     .leftJoin('companies', 'questions.company_id', 'companies.id')
+//     .leftJoin('experiences', 'questions.experience_id', 'experiences.id')
+//     .leftJoin('users', 'questions.created_by', 'users.id')
+//     .where('questions.technology_id', technologyId)
+//     .orderBy('questions.created_at', 'desc');
+
+//   const questionsWithAnswers = await Promise.all(
+//     questions.map(async (question) => {
+//       const answers = await db('answers')
+//         .select(
+//           'answers.*',
+//           'users.name as created_by_name'
+//         )
+//         .leftJoin('users', 'answers.created_by', 'users.id')
+//         .where('answers.question_id', question.id)
+//         .orderBy('answers.created_at', 'desc');
+
+//       return {
+//         ...question,
+//         answers
+//       };
+//     })
+//   );
+
+//   return questionsWithAnswers;
+// };

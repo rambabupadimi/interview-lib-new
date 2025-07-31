@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
@@ -43,7 +42,6 @@ interface DashboardStats {
     MatDividerModule,
     MatListModule,
     MatTableModule,
-    MatPaginatorModule,
     MatSortModule,
     MatTabsModule,
     MatChipsModule,
@@ -74,14 +72,14 @@ export class DashboardComponent implements OnInit {
     if (userStr) {
       this.user = JSON.parse(userStr);
     }
-    
+
     // const accessToken = localStorage.getItem('admin_accessToken');
     // if (!accessToken) {
     //   this.router.navigate(['/admin/login']);
     //   return;
     // }
 
-    this.loadDashboardStats();
+   // this.loadDashboardStats();
   }
 
   async loadDashboardStats(): Promise<void> {
@@ -133,6 +131,10 @@ export class DashboardComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  navigateToUsers(): void {
+    this.router.navigate(['/admin/users']);
   }
 
   getStatusColor(status: string): string {

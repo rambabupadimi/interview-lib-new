@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:admin-portal": "nx serve admin-portal",
-    "start:user-portal": "nx serve user-portal",
-    "start:operational-portal": "nx serve operational-portal",
-    "start:backend-portal": "nx serve backend-portal"
+    "admin-portal": "nx serve admin-portal",
+    "user-portal": "nx serve user-portal",
+    "operational-portal": "nx serve operational-portal",
+    "backend-portal": "nx serve backend-portal"
   },
   "private": true,
   "devDependencies": {
@@ -97,10 +97,12 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "helmet": "^7.1.0",
+    "highlight.js": "^11.11.1",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "morgan": "^1.10.0",
     "mysql2": "^3.14.1",
+    "ngx-quill": "^28.0.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router-dom": "6.29.0",

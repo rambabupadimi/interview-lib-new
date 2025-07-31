@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'admin-portal/src/environments/environment';
 
 @Component({
   selector: 'app-technology-edit',
@@ -63,8 +64,8 @@ export class TechnologyEditComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      this.http.get<any>(`/api/admin/technologies/${this.id}`).subscribe({
-        next: (data) => this.form.patchValue(data),
+      this.http.get<any>(`${environment.apiUrl}/technologies/${this.id}`).subscribe({
+        next: (data) => this.form.patchValue({name:data.data.name}),
         error: () => this.snackBar.open('Failed to load technology', 'Close', { duration: 3000 })
       });
     }
@@ -72,7 +73,7 @@ export class TechnologyEditComponent implements OnInit {
   onSubmit() {
     if (this.form.valid && this.id) {
       this.loading = true;
-      this.http.put(`/api/admin/technologies/${this.id}`, this.form.value).subscribe({
+      this.http.put(`${environment.apiUrl}/technologies/${this.id}`, this.form.value).subscribe({
         next: () => {
           this.snackBar.open('Technology updated!', 'Close', { duration: 2000 });
           this.router.navigate(['/admin/technologies']);
@@ -87,4 +88,4 @@ export class TechnologyEditComponent implements OnInit {
   cancel() {
     this.router.navigate(['/admin/technologies']);
   }
-} 
+}

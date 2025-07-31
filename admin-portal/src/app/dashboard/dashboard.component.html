@@ -9,9 +9,9 @@
         </div>
         <div class="flex items-center space-x-4">
           <span class="text-sm text-gray-600">Welcome, {{ user?.name }}</span>
-          <button 
-            mat-raised-button 
-            color="warn" 
+          <button
+            mat-raised-button
+            color="warn"
             (click)="logout()"
             class="flex items-center"
           >
@@ -30,7 +30,7 @@
       <!-- Total Users -->
       <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
         <mat-card-content class="p-6">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between stat-item" (click)="navigateToSection('users')">
             <div>
               <p class="text-sm font-medium text-gray-600">Total Users</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalUsers }}</p>
@@ -40,11 +40,12 @@
           <mat-progress-bar mode="determinate" value="75" class="mt-4"></mat-progress-bar>
         </mat-card-content>
       </mat-card>
+      <br/>
 
       <!-- Total Technologies -->
       <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
         <mat-card-content class="p-6">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between" (click)="navigateToSection('technologies')">
             <div>
               <p class="text-sm font-medium text-gray-600">Technologies</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalTechnologies }}</p>
@@ -54,11 +55,12 @@
           <mat-progress-bar mode="determinate" value="60" class="mt-4"></mat-progress-bar>
         </mat-card-content>
       </mat-card>
+      <br/>
 
       <!-- Total Questions -->
       <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
         <mat-card-content class="p-6">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between" (click)="navigateToSection('questions')">
             <div>
               <p class="text-sm font-medium text-gray-600">Questions</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalQuestions }}</p>
@@ -68,20 +70,7 @@
           <mat-progress-bar mode="determinate" value="85" class="mt-4"></mat-progress-bar>
         </mat-card-content>
       </mat-card>
-
-      <!-- Active Users -->
-      <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
-        <mat-card-content class="p-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">Active Users</p>
-              <p class="text-3xl font-bold text-gray-900">{{ stats.activeUsers }}</p>
-            </div>
-            <mat-icon class="text-orange-600 text-4xl">online_prediction</mat-icon>
-          </div>
-          <mat-progress-bar mode="determinate" value="68" class="mt-4"></mat-progress-bar>
-        </mat-card-content>
-      </mat-card>
+      <br/>
 
       <!-- Pending Approvals -->
       <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
@@ -96,142 +85,7 @@
           <mat-progress-bar mode="determinate" value="12" class="mt-4"></mat-progress-bar>
         </mat-card-content>
       </mat-card>
-
-      <!-- Total Answers -->
-      <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
-        <mat-card-content class="p-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">Total Answers</p>
-              <p class="text-3xl font-bold text-gray-900">{{ stats.totalAnswers }}</p>
-            </div>
-            <mat-icon class="text-indigo-600 text-4xl">question_answer</mat-icon>
-          </div>
-          <mat-progress-bar mode="determinate" value="92" class="mt-4"></mat-progress-bar>
-        </mat-card-content>
-      </mat-card>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <!-- Admin Actions -->
-      <mat-card class="shadow-lg">
-        <mat-card-header>
-          <mat-card-title class="text-xl font-semibold text-gray-800">
-            <mat-icon class="mr-2 text-indigo-600">admin_panel_settings</mat-icon>
-            Quick Actions
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="pt-4">
-          <div class="grid grid-cols-2 gap-4">
-            <button mat-raised-button color="primary" class="h-16" (click)="navigateToSection('users')">
-              <mat-icon class="mr-2">people</mat-icon>
-              Manage Users
-            </button>
-            <button mat-raised-button color="accent" class="h-16" (click)="navigateToSection('technologies')">
-              <mat-icon class="mr-2">code</mat-icon>
-              Technologies
-            </button>
-            <button mat-raised-button class="h-16" (click)="navigateToSection('questions')">
-              <mat-icon class="mr-2">quiz</mat-icon>
-              Questions
-            </button>
-            <button mat-raised-button class="h-16" (click)="navigateToSection('reports')">
-              <mat-icon class="mr-2">analytics</mat-icon>
-              Reports
-            </button>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- User Info -->
-      <mat-card class="shadow-lg">
-        <mat-card-header>
-          <mat-card-title class="text-xl font-semibold text-gray-800">
-            <mat-icon class="mr-2 text-green-600">person</mat-icon>
-            Admin Information
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="pt-4" *ngIf="user">
-          <mat-list>
-            <mat-list-item>
-              <mat-icon matListItemIcon class="text-gray-500">person_outline</mat-icon>
-              <div matListItemTitle class="font-medium">Name</div>
-              <div matListItemLine>{{ user.name }}</div>
-            </mat-list-item>
-            
-            <mat-divider></mat-divider>
-            
-            <mat-list-item>
-              <mat-icon matListItemIcon class="text-gray-500">email</mat-icon>
-              <div matListItemTitle class="font-medium">Email</div>
-              <div matListItemLine>{{ user.email }}</div>
-            </mat-list-item>
-            
-            <mat-divider></mat-divider>
-            
-            <mat-list-item>
-              <mat-icon matListItemIcon class="text-gray-500">security</mat-icon>
-              <div matListItemTitle class="font-medium">Role ID</div>
-              <div matListItemLine>{{ user.role_id }}</div>
-            </mat-list-item>
-            
-            <mat-divider></mat-divider>
-            
-            <mat-list-item>
-              <mat-icon matListItemIcon class="text-gray-500">check_circle</mat-icon>
-              <div matListItemTitle class="font-medium">Status</div>
-              <div matListItemLine>
-                <mat-chip [color]="getStatusColor(user.status)" selected>
-                  {{ user.status }}
-                </mat-chip>
-              </div>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="mt-8">
-      <mat-card class="shadow-lg">
-        <mat-card-header>
-          <mat-card-title class="text-xl font-semibold text-gray-800">
-            <mat-icon class="mr-2 text-blue-600">timeline</mat-icon>
-            Recent Activity
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="pt-4">
-          <div class="space-y-4">
-            <div class="flex items-center p-3 bg-blue-50 rounded-lg">
-              <mat-icon class="text-blue-600 mr-3">person_add</mat-icon>
-              <div>
-                <p class="font-medium text-gray-900">New user registered</p>
-                <p class="text-sm text-gray-600">John Doe joined the platform</p>
-              </div>
-              <span class="ml-auto text-xs text-gray-500">2 min ago</span>
-            </div>
-            
-            <div class="flex items-center p-3 bg-green-50 rounded-lg">
-              <mat-icon class="text-green-600 mr-3">code</mat-icon>
-              <div>
-                <p class="font-medium text-gray-900">Technology added</p>
-                <p class="text-sm text-gray-600">React.js was added to technologies</p>
-              </div>
-              <span class="ml-auto text-xs text-gray-500">15 min ago</span>
-            </div>
-            
-            <div class="flex items-center p-3 bg-purple-50 rounded-lg">
-              <mat-icon class="text-purple-600 mr-3">quiz</mat-icon>
-              <div>
-                <p class="font-medium text-gray-900">Question approved</p>
-                <p class="text-sm text-gray-600">5 new questions were approved</p>
-              </div>
-              <span class="ml-auto text-xs text-gray-500">1 hour ago</span>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
   </div>
 </div>

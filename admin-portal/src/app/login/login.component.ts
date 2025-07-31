@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { environment } from '../../environments/environment';
 
 interface LoginCredentials {
   email: string;
@@ -38,8 +40,8 @@ interface LoginResponse {
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
+    CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -81,6 +83,7 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
+    console.log('Form submitted:', this.loginForm.value);
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
@@ -92,8 +95,11 @@ export class LoginComponent implements OnInit {
       };
 
       try {
-        const response = await this.http.post<LoginResponse>('/api/auth/login', credentials).toPromise();
-        
+        const response = await this.http.post<LoginResponse>(
+          `${environment.apiUrl}/auth/login`,
+          credentials
+        ).toPromise();
+
         if (response) {
           // Store tokens in localStorage with admin prefix
           localStorage.setItem('admin_accessToken', response.data.accessToken);
@@ -106,7 +112,7 @@ export class LoginComponent implements OnInit {
             horizontalPosition: 'center',
             verticalPosition: 'top',
           });
-          
+
           setTimeout(() => {
             this.router.navigate(['/admin/dashboard']);
           }, 1000);
