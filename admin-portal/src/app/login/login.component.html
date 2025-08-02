@@ -1,28 +1,28 @@
 <!-- Top Navbar -->
 <div class="flex items-center p-4 shadow-sm">
   <mat-icon>flag</mat-icon>
-  <h1 class="ml-2 font-bold text-lg">TechQnA</h1>
+  <h1 class="ml-2 font-bold text-lg">InterviewLIB</h1>
 </div>
 
 <!-- Centered Form Container -->
-<div class="flex items-center justify-center min-h-[80vh] bg-gray-200">
-  <div class="w-full max-w-[400px] px-6 py-8">
+<div class="flex items-center justify-center min-h-[80vh] ">
+  <div class="w-full max-w-[400px] px-12 py-12 border border-gray-300 rounded-[6px]">
     <h2 class="text-center text-2xl font-bold mb-6">Login</h2>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-form-field appearance="outline" class="w-full mb-4" [ngClass]="{'custom-outline': true}">
         <mat-label>Email</mat-label>
         <input matInput placeholder="Email" type="email" formControlName="email">
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="w-full mb-6">
+      <mat-form-field appearance="outline" class="w-full mb-6" [ngClass]="{'custom-outline': true}">
         <mat-label>Password</mat-label>
         <input matInput placeholder="Password" type="password" formControlName="password">
       </mat-form-field>
 
-      <button mat-raised-button color="primary"
+      <button color="primary"
       type="submit"
-              class="w-full bg-black hover:bg-gray-900 text-white py-2 rounded-full mb-4"
+              class="w-full border border-gray-300 xt-black py-2 rounded-full mb-4 bg-transparent hover:bg-gray-100 cursor-pointer"
              >
         Login
       </button>

@@ -20,40 +20,50 @@ import { AddAnswerComponent } from '../add-answer/add-answer.component';
   ],
   template: `
     <!-- Top Section: Technology List -->
-    <div class="max-w-5xl mx-auto mt-8 mb-4">
-      <mat-card style="height:100px; overflow-y:auto;">
-        <mat-card-title>Technologies</mat-card-title>
-        <mat-card-content *ngIf="technologies.length > 0">
+
+
+    <div class="max-w-7xl mx-auto flex items-center mb-4 mt-4">
+        <button mat-icon-button (click)="goBack()" aria-label="Back" class="mr-2">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2 class="text-2xl font-semibold">Question & Answers</h2>
+      </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-4 lg:px-4 py-4 border mt-4 rounded border-gray-300">
+
+        <div *ngIf="technologies.length > 0">
           <div class="flex flex-wrap gap-3">
             <span
               *ngFor="let tech of technologies"
-              class="px-3 py-1 bg-gray-200 rounded text-sm cursor-pointer"
+              class="px-3 py-1 bg-white border border-gray-300 rounded text-sm cursor-pointer"
               (click)="loadQuestions(tech.id)"
+               [ngClass]="{'selected-tech': technologyId === tech.id}"
             >
               {{ tech.name }}
             </span>
           </div>
-        </mat-card-content>
-      </mat-card>
+        </div>
     </div>
-    <br/>
+
     <!-- Main Section: Questions/Answers -->
-    <div class="flex max-w-5xl mx-auto py-8 gap-6">
+    <div class="flex max-w-7xl mx-auto py-2 gap-6">
       <!-- Left Section: Questions List -->
       <div style="flex-basis:35%; min-width:300px;">
-        <mat-card>
-          <mat-card-title class="flex items-center justify-between">
-            <span>Questions</span>
-            <button mat-raised-button color="primary" (click)="openAddQuestionDialog()">
+          <div>
+            <div class="left-heading-section flex justify-between py-4 items-center ">
+            <span><b>Questions</b></span>
+            <button mat-stroked-button
+              class="custom-stroked-btn !text-black !border-gray-300 hover:bg-gray-300 hover:text-gray-900 hover:border-gray-400 transition-colors"
+            (click)="openAddQuestionDialog()">
               <mat-icon>add</mat-icon>
-              Create
+              Add New Question
             </button>
-          </mat-card-title>
-          <mat-card-content>
+            </div>
+            <div class="border rounded border-gray-300 ">
             <div *ngIf="questions.length > 0; else noQuestions">
               <div
                 *ngFor="let q of questions"
-                class="p-2 border rounded mb-2 cursor-pointer"
+                class="p-2 cursor-pointer border-b border-gray-300"
                 [ngClass]="{'selected': selectedQuestion?.id === q.id}"
                 (click)="selectQuestion(q)"
               >
@@ -63,30 +73,33 @@ import { AddAnswerComponent } from '../add-answer/add-answer.component';
             <ng-template #noQuestions>
               <div class="text-gray-500">No questions available.</div>
             </ng-template>
-          </mat-card-content>
-        </mat-card>
+</div>
+</div>
       </div>
       <!-- Right Section: Answers -->
-      <div style="flex-basis:65%;">
-        <mat-card>
-          <mat-card-title class="flex items-center justify-between">
-            <span>Answers</span>
-            <button mat-raised-button color="primary" (click)="addAnswer()" >
+      <div style="flex-basis:65%;" class="border rounded border-gray-300 mt-4 px-6 py-2">
+        <div>
+          <div class="flex items-center justify-between  items-center mb-4 mt-4">
+            <span><b>Answers</b></span>
+            <button
+            mat-stroked-button
+              class="custom-stroked-btn !text-black !border-gray-300 hover:bg-gray-300 hover:text-gray-900 hover:border-gray-400 transition-colors"
+
+            (click)="addAnswer()" >
               <mat-icon>add</mat-icon>
-              Create
+              Add New Answer
             </button>
-          </mat-card-title>
-          <mat-card-content>
+          </div>
             <div *ngIf="selectedQuestion">
               <div *ngIf="answers.length > 0; else noAnswers">
-                <div *ngFor="let ans of answers" class="mb-4 p-2 border rounded bg-gray-50">
+                <div *ngFor="let ans of answers" class="mb-4 p-2 border rounded bg-white border-gray-300 ">
                   <!-- <div>{{ ans.answer_text }}</div> -->
 
                   <div class="NgxEditor__Wrapper" style="background: white;border-radius: 6px;border: none;">
                 <div [innerHTML]="ans.answer_text"
                 class="editor-container" aria-placeholder="Enter question here.."></div>
               </div>
-                  <div class="text-xs text-gray-400 mt-1">By: {{ ans.created_by_name }} | {{ ans.created_at | date:'medium' }}</div>
+                  <div class="text-xs text-gray-400 mt-1" style="display:flex;justify-content:end">By: {{ ans.created_by_name }} | {{ ans.created_at | date:'medium' }}</div>
                 </div>
               </div>
               <ng-template #noAnswers>
@@ -94,15 +107,19 @@ import { AddAnswerComponent } from '../add-answer/add-answer.component';
               </ng-template>
             </div>
             <div *ngIf="!selectedQuestion" class="text-gray-400">Select a question to view answers.</div>
-          </mat-card-content>
-        </mat-card>
+
       </div>
+    </div>
     </div>
   `,
   styles: [`
     .selected {
       background: #e0e7ff;
       border-color: #6366f1;
+    }
+    .selected-tech {
+    background: #000;
+    color: #fff;
     }
   `]
 })
@@ -190,5 +207,8 @@ export class QuestionsComponent implements OnInit {
         // this.loadQuestions(currentTechId);
       }
     });
+  }
+  goBack() {
+    this.router.navigate(['/admin']);
   }
 }

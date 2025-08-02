@@ -1,0 +1,3 @@
+.custom-outline .mat-form-field-outline {
+  border-color: #d1d5db !important; /* Tailwind's border-gray-300 */
+}

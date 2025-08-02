@@ -41,10 +41,12 @@ $admin-portal-theme: mat.define-theme((
    3. Tailwind CSS imports
    (must come AFTER theming setup)
 --------------------------------- */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
 
+
+@import "tailwindcss";
 
 /* ------------------------------
    4. Global styles
@@ -65,3 +67,20 @@ html, body {
   background: #4caf50;
   color: white;
 }
+
+
+.mdc-notched-outline__notch
+{
+  border-right: none;
+}
+
+.mat-mdc-card {
+  background-color: white;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: none;
+}
+::ng-deep .mat-mdc-header-cell {
+border-bottom-color: green !important;
+}
+

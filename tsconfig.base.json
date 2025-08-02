@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nx-monorepo/common-component": ["libs/common-component/src/index.ts"],
       "@nx-monorepo/shared-login": ["libs/shared-login/src/index.ts"]
     }
   },

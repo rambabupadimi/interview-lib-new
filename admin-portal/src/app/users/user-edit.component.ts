@@ -23,10 +23,8 @@ import { environment } from 'admin-portal/src/environments/environment';
     MatSelectModule
   ],
   template: `
-    <div class="max-w-2xl mx-auto py-8">
-      <mat-card>
-        <mat-card-title>Edit User</mat-card-title>
-        <mat-card-content>
+    <div class="max-w-2xl mx-auto py-8 flex justify-end">
+      <div class="edit-user-section border border-gray-300 rounded-md p-6">
           <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
             <mat-form-field appearance="outline" class="w-full">
               <mat-label>Name</mat-label>
@@ -43,16 +41,23 @@ import { environment } from 'admin-portal/src/environments/environment';
                 <mat-option value="deactive">Inactive</mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
-              {{ loading ? 'Saving...' : 'Save' }}
-            </button>
-            <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
+            <div class="flex gap-4 justify-end">
+
+              <button mat-stroked-button type="button" (click)="cancel()" class="custom-stroked-btn !text-black !border-gray-300 hover:bg-gray-300 hover:text-gray-900 hover:border-gray-400 transition-colors">
+                Cancel
+              </button>
+              <button mat-stroked-button type="submit" [disabled]="form.invalid || loading"
+                class="custom-stroked-btn !text-black !border-gray-300 hover:bg-gray-300 hover:text-gray-900 hover:border-gray-400 transition-colors">
+                {{ loading ? 'Saving...' : 'Save' }}
+              </button>
+            </div>
           </form>
-        </mat-card-content>
-      </mat-card>
+      </div>
     </div>
   `,
-  styles: [``]
+  styles: [`
+
+  `]
 })
 export class UserEditComponent implements OnInit {
   form: FormGroup;

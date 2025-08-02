@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-white">
   <!-- Header -->
-  <div class="bg-white shadow-sm border-b">
+  <!-- <div class="bg-white shadow-sm border-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <div class="flex items-center">
@@ -21,68 +21,61 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       <!-- Total Users -->
-      <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
-        <mat-card-content class="p-6">
+      <mat-card class="bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-300">
+        <mat-card-content class="p-6 bg-white" style="border: 1px solid #d1d5dc; border-radius: 8px;">
           <div class="flex items-center justify-between stat-item" (click)="navigateToSection('users')">
             <div>
               <p class="text-sm font-medium text-gray-600">Total Users</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalUsers }}</p>
             </div>
-            <mat-icon class="text-blue-600 text-4xl">people</mat-icon>
+            <mat-icon class="text-gray-500 text-4xl">people</mat-icon>
           </div>
-          <mat-progress-bar mode="determinate" value="75" class="mt-4"></mat-progress-bar>
         </mat-card-content>
       </mat-card>
-      <br/>
 
       <!-- Total Technologies -->
-      <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
-        <mat-card-content class="p-6">
+      <mat-card class="bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100">
+        <mat-card-content class="p-6 bg-white" style="border: 1px solid #d1d5dc; border-radius: 8px;">
           <div class="flex items-center justify-between" (click)="navigateToSection('technologies')">
             <div>
               <p class="text-sm font-medium text-gray-600">Technologies</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalTechnologies }}</p>
             </div>
-            <mat-icon class="text-green-600 text-4xl">code</mat-icon>
+            <mat-icon class="text-gray-500 text-4xl">code</mat-icon>
           </div>
-          <mat-progress-bar mode="determinate" value="60" class="mt-4"></mat-progress-bar>
         </mat-card-content>
       </mat-card>
-      <br/>
 
       <!-- Total Questions -->
-      <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
-        <mat-card-content class="p-6">
+      <mat-card class="bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100">
+        <mat-card-content class="p-6 bg-white" style="border: 1px solid #d1d5dc; border-radius: 8px;">
           <div class="flex items-center justify-between" (click)="navigateToSection('questions')">
             <div>
               <p class="text-sm font-medium text-gray-600">Questions</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalQuestions }}</p>
             </div>
-            <mat-icon class="text-purple-600 text-4xl">quiz</mat-icon>
+            <mat-icon class="text-gray-500 text-4xl">quiz</mat-icon>
           </div>
-          <mat-progress-bar mode="determinate" value="85" class="mt-4"></mat-progress-bar>
         </mat-card-content>
       </mat-card>
-      <br/>
 
       <!-- Pending Approvals -->
-      <mat-card class="shadow-lg hover:shadow-xl transition-shadow">
-        <mat-card-content class="p-6">
+      <mat-card class="bg-white border border-gray-300 rounded-lg">
+        <mat-card-content class="p-6 bg-white" style="border: 1px solid #d1d5dc; border-radius: 8px;">
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm font-medium text-gray-600">Pending Approvals</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.pendingApprovals }}</p>
             </div>
-            <mat-icon class="text-red-600 text-4xl">pending</mat-icon>
+            <mat-icon class="text-gray-500 text-4xl">pending</mat-icon>
           </div>
-          <mat-progress-bar mode="determinate" value="12" class="mt-4"></mat-progress-bar>
         </mat-card-content>
       </mat-card>
     </div>
