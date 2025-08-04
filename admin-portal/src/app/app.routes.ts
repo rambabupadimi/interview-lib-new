@@ -55,6 +55,18 @@ export const appRoutes: Route[] = [
       {
         path: 'reports',
         loadComponent: () => import('./reports/reports.component').then(m => m.ReportsComponent)
+      },
+      {
+        path:'organizations',
+        loadComponent: () => import('./organizations/organizations.component').then(m => m.OrganizationsComponent)
+      },
+      {
+        path:'organizations/add',
+        loadComponent: () => import('./organizations/organization-add.component').then(m => m.OrganizationAddComponent)
+      },
+      {
+        path:'organizations/edit/:id',
+        loadComponent: () => import('./organizations/organization-edit.component').then(m => m.OrganizationEditComponent)
       }
     ]
   }

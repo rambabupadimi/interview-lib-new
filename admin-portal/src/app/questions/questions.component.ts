@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
@@ -10,6 +10,13 @@ import { environment } from 'admin-portal/src/environments/environment';
 import { CommonModule } from '@angular/common';
 import { AddQuestionComponent } from '../add-question/add-question.component'; // Adjust path as needed
 import { AddAnswerComponent } from '../add-answer/add-answer.component';
+import { EditAnswerComponent } from '../edit-answer/edit-answer.component';
+import { QuillModule } from 'ngx-quill';
+import Quill from 'quill';
+import hljs from 'highlight.js'; // Import Highlight.js
+hljs.configure({
+  languages: ['javascript', 'python', 'java', 'html', 'css'] // Add desired languages
+});
 
 @Component({
   selector: 'app-questions',
@@ -59,16 +66,17 @@ import { AddAnswerComponent } from '../add-answer/add-answer.component';
               Add New Question
             </button>
             </div>
-            <div class="border rounded border-gray-300 ">
+            <div class="border rounded border-gray-300 " style="    height: calc(100vh - 330px);
+    overflow: scroll;">
             <div *ngIf="questions.length > 0; else noQuestions">
               <div
                 *ngFor="let q of questions"
-                class="p-2 cursor-pointer border-b border-gray-300"
+                class="p-2 cursor-pointer border-b border-gray-300 text-sm"
                 [ngClass]="{'selected': selectedQuestion?.id === q.id}"
                 (click)="selectQuestion(q)"
+                [innerHTML] ="q.title"
               >
-                {{ q.title }}
-              </div>
+               </div>
             </div>
             <ng-template #noQuestions>
               <div class="text-gray-500">No questions available.</div>
@@ -91,15 +99,22 @@ import { AddAnswerComponent } from '../add-answer/add-answer.component';
             </button>
           </div>
             <div *ngIf="selectedQuestion">
-              <div *ngIf="answers.length > 0; else noAnswers">
+              <div *ngIf="answers.length > 0; else noAnswers"  style="height: calc(100vh - 400px);overflow: scroll;">
                 <div *ngFor="let ans of answers" class="mb-4 p-2 border rounded bg-white border-gray-300 ">
                   <!-- <div>{{ ans.answer_text }}</div> -->
 
-                  <div class="NgxEditor__Wrapper" style="background: white;border-radius: 6px;border: none;">
-                <div [innerHTML]="ans.answer_text"
+                  <div class="NgxEditor__Wrapper" style="background: white;border-radius: 6px;border: none;font-size:14px;padding:12px;">
+                <div [innerHTML]="ans.answer_text"  #answerEditorContainer
                 class="editor-container" aria-placeholder="Enter question here.."></div>
               </div>
-                  <div class="text-xs text-gray-400 mt-1" style="display:flex;justify-content:end">By: {{ ans.created_by_name }} | {{ ans.created_at | date:'medium' }}</div>
+                  <div class="text-xs text-gray-400 mt-1" style="display:flex;justify-content:space-between">
+                  <div>
+                    <span (click)="editAnswer(ans.id,ans.answer_text)" class="cursor-pointer px-2"><u>Edit</u></span>
+                </div>
+                  <div>
+                  By: {{ ans.created_by_name }} | {{ ans.created_at | date:'medium' }}
+                </div>
+                </div>
                 </div>
               </div>
               <ng-template #noAnswers>
@@ -114,8 +129,7 @@ import { AddAnswerComponent } from '../add-answer/add-answer.component';
   `,
   styles: [`
     .selected {
-      background: #e0e7ff;
-      border-color: #6366f1;
+      background: #e3e0e0;
     }
     .selected-tech {
     background: #000;
@@ -130,6 +144,10 @@ export class QuestionsComponent implements OnInit {
   technologies: any[] = [];
   technologyId = -1;
 
+  @ViewChild("answerEditorContainer")
+  answerEditorContainer?: ElementRef;
+  answerEditor: any;
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -138,6 +156,57 @@ export class QuestionsComponent implements OnInit {
 
   ngOnInit() {
     this.loadTechnologies();
+  }
+
+  initAnswerEditor(){
+    if (this.answerEditorContainer) {
+      try {
+          this.answerEditor = new Quill(this.answerEditorContainer.nativeElement, {
+            modules: {
+              toolbar: [
+                // Text formatting
+                [{ 'font': [] }], // Font selection
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }], // Headers (h1-h6)
+                ['bold', 'italic', 'underline', 'strike'], // Bold, Italic, Underline, Strike-through
+
+                // Subscript/Superscript
+                [{ 'script': 'sub' }, { 'script': 'super' }], // Subscript / Superscript
+
+                // Lists
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered & Unordered list
+
+                // Indentation
+                [{ 'indent': '-1' }, { 'indent': '+1' }], // Outdent and Indent
+
+                // Alignment
+                [{ 'align': [] }], // Alignment options
+
+                // Line height and blockquotes
+                [{ 'lineheight': [] }], // Line height adjustment
+                ['blockquote', 'code-block'], // Blockquote and Code block
+
+                // Links, images, and videos
+                ['link', 'image', 'video'], // Hyperlink, Image, Video embedding
+
+                // Text color & background
+                [{ 'color': [] }, { 'background': [] }], // Text color and background color
+
+                // Clear formatting
+                ['clean'], // Remove formatting button
+              ],
+              syntax: {
+                highlight: (text:any) => hljs.highlightAuto(text).value // Highlight the text
+              },
+            },
+            theme: 'snow',
+            placeholder:'Enter text...'
+          });
+      } catch (error) {
+          console.error("Error creating Quill editor:", error);
+      }
+  } else {
+      console.error("Element with #AnswereditorContainer not found!");
+  }
   }
 
   loadQuestions(id: number) {
@@ -195,7 +264,30 @@ export class QuestionsComponent implements OnInit {
       width: '600px',
       data: {
         id: this.technologyId,
-        questionId: this.selectedQuestion?.id
+        questionId: this.selectedQuestion?.id,
+        question: this.selectedQuestion.title
+      } // Pass any data if needed
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'refresh') {
+        this.loadQuestions(this.technologyId);
+        // Reload questions if needed
+        // Optionally, reload the current technology's questions
+        // this.loadQuestions(currentTechId);
+      }
+    });
+  }
+
+  editAnswer(answerId: number,answer: string) {
+    const dialogRef = this.dialog.open(EditAnswerComponent, {
+      width: '600px',
+      data: {
+        id: this.technologyId,
+        questionId: this.selectedQuestion?.id,
+        question: this.selectedQuestion.title,
+        answerId: answerId,
+        answer: answer
       } // Pass any data if needed
     });
 

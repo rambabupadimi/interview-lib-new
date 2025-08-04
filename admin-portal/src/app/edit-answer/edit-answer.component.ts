@@ -17,7 +17,7 @@ hljs.configure({
 
 
 @Component({
-  selector: 'app-add-answer',
+  selector: 'app-edit-answer',
   standalone: true,
   imports: [
     CommonModule,
@@ -51,7 +51,7 @@ hljs.configure({
 
   `
 })
-export class AddAnswerComponent implements  AfterViewInit {
+export class EditAnswerComponent implements  AfterViewInit {
   form: FormGroup;
 
   @ViewChild("answerEditorContainer")
@@ -62,8 +62,8 @@ export class AddAnswerComponent implements  AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private dialogRef: MatDialogRef<AddAnswerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { questionId: number }
+    private dialogRef: MatDialogRef<EditAnswerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { answerId: number, answer: string }
   ) {
     this.form = this.fb.group({
       answer_text: ['', Validators.required]
@@ -72,6 +72,11 @@ export class AddAnswerComponent implements  AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initAnswerEditor();
+   // this.answerEditor.setText(this.data.answer)
+
+    if(this.answerEditor?.root) {
+      this.answerEditor.root.innerHTML = this.data.answer;
+    }
   }
 
   initAnswerEditor() {
@@ -129,7 +134,7 @@ export class AddAnswerComponent implements  AfterViewInit {
     this.loading = true;
     this.answerContent = this.answerEditor?.root.innerHTML;
     if (this.answerContent.length > 0) {
-      this.http.post(`${environment.apiUrl}/questions/${this.data.questionId}/answers`, {
+      this.http.put(`${environment.apiUrl}/questions/answers/${this.data.answerId}`, {
         answer_text: this.answerContent
       }).subscribe(() => {
         this.loading = false;

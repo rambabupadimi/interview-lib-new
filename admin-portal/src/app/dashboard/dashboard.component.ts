@@ -128,6 +128,9 @@ export class DashboardComponent implements OnInit {
       case 'reports':
         this.router.navigate(['/admin/reports']);
         break;
+      case 'organizations':
+        this.router.navigate(['/admin/organizations']);
+        break;
       default:
         break;
     }

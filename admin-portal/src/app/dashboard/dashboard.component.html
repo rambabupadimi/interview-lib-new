@@ -28,21 +28,21 @@
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       <!-- Total Users -->
-      <mat-card class="bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-300">
-        <mat-card-content class="p-6 bg-white" style="border: 1px solid #d1d5dc; border-radius: 8px;">
+      <mat-card class="bg-white border border-gray-300 rounded-lg cursor-pointer group">
+        <mat-card-content class="p-6 bg-white hover:bg-gray-200" style="border: 1px solid #d1d5dc; border-radius: 8px;">
           <div class="flex items-center justify-between stat-item" (click)="navigateToSection('users')">
             <div>
-              <p class="text-sm font-medium text-gray-600">Total Users</p>
-              <p class="text-3xl font-bold text-gray-900">{{ stats.totalUsers }}</p>
+              <p class="text-sm font-medium text-gray-600 ">Total Users</p>
+              <p class="text-3xl font-bold text-gray-900 ">{{ stats.totalUsers }}</p>
             </div>
-            <mat-icon class="text-gray-500 text-4xl">people</mat-icon>
+            <mat-icon class="text-gray-500 text-4xl ">people</mat-icon>
           </div>
         </mat-card-content>
       </mat-card>
 
       <!-- Total Technologies -->
       <mat-card class="bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100">
-        <mat-card-content class="p-6 bg-white" style="border: 1px solid #d1d5dc; border-radius: 8px;">
+        <mat-card-content class="p-6 bg-white hover:bg-gray-200" style="border: 1px solid #d1d5dc; border-radius: 8px;">
           <div class="flex items-center justify-between" (click)="navigateToSection('technologies')">
             <div>
               <p class="text-sm font-medium text-gray-600">Technologies</p>
@@ -55,10 +55,10 @@
 
       <!-- Total Questions -->
       <mat-card class="bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100">
-        <mat-card-content class="p-6 bg-white" style="border: 1px solid #d1d5dc; border-radius: 8px;">
+        <mat-card-content class="p-6 bg-white hover:bg-gray-200" style="border: 1px solid #d1d5dc; border-radius: 8px;">
           <div class="flex items-center justify-between" (click)="navigateToSection('questions')">
             <div>
-              <p class="text-sm font-medium text-gray-600">Questions</p>
+              <p class="text-sm font-medium text-gray-600">Questions & Answers</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalQuestions }}</p>
             </div>
             <mat-icon class="text-gray-500 text-4xl">quiz</mat-icon>
@@ -66,9 +66,22 @@
         </mat-card-content>
       </mat-card>
 
+        <!-- Companies -->
+        <mat-card class="bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100">
+          <mat-card-content class="p-6 bg-white hover:bg-gray-200" style="border: 1px solid #d1d5dc; border-radius: 8px;">
+            <div class="flex items-center justify-between" (click)="navigateToSection('organizations')">
+              <div>
+                <p class="text-sm font-medium text-gray-600">Organizations</p>
+                <p class="text-3xl font-bold text-gray-900">{{ stats.totalQuestions }}</p>
+              </div>
+              <mat-icon class="text-gray-500 text-4xl">corporate_fare</mat-icon>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
       <!-- Pending Approvals -->
       <mat-card class="bg-white border border-gray-300 rounded-lg">
-        <mat-card-content class="p-6 bg-white" style="border: 1px solid #d1d5dc; border-radius: 8px;">
+        <mat-card-content class="p-6 bg-white hover:bg-gray-200" style="border: 1px solid #d1d5dc; border-radius: 8px;">
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm font-medium text-gray-600">Pending Approvals</p>
